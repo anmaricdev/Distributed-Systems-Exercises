@@ -1,31 +1,40 @@
 import socket
 import signal
 import sys
+import threading
+import datetime
 
 def handle_sigint(signal, frame):
     print("\nServer shutting down...")
     sys.exit(0)
 
-# Register the SIGINT handler
 signal.signal(signal.SIGINT, handle_sigint)
 
-# Create a socket and bind to localhost on port 1337
+def handle_client(client_socket, client_address):
+    print(f"Connection established with {client_address}")
+
+    while True:
+        data = client_socket.recv(1024)
+        if data:
+            message = data.decode('utf-8')
+            print(f"Client said: {message}")
+        else:
+            print(f"Client {client_address} disconnected.")
+            break
+
+    client_socket.close()
+
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(('localhost', 1337))
 server_socket.listen(1)
 print("Server listening on port 1337...")
 
-# Keep the server running until a signal is received
+client_socket, client_address = server_socket.accept()
+
+client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
+client_thread.start()
+
 while True:
-    # Accept a new client connection
-    client_socket, client_address = server_socket.accept()
-    print(f"Connection established with {client_address}")
-
-    # Receive data from the client
-    data = client_socket.recv(1024)  # Receive up to 1024 bytes
-    if data:
-        # Print the message on the local console
-        print(f"Received message: {data.decode('utf-8')}")
-
-    # Close the client socket
-    client_socket.close()
+    message = input()
+    if message:
+        client_socket.sendall(message.encode('utf-8'))
