@@ -4,11 +4,11 @@ import sys
 import threading
 import datetime
 
-def handle_sigint(signal, frame):
+def sigint_handler(signal, frame):
     print("\nServer shutting down...")
     sys.exit(0)
 
-signal.signal(signal.SIGINT, handle_sigint)
+signal.signal(signal.SIGINT, sigint_handler)
 
 def handle_client(client_socket, client_address):
     print(f"Connection established with {client_address}")

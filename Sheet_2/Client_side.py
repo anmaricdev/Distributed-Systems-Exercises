@@ -3,11 +3,11 @@ import signal
 import sys
 import threading
 
-def handle_sigint(signal, frame):
+def sigint_handler(signal, frame):
     print("\nClient shutting down...")
     sys.exit(0)
 
-signal.signal(signal.SIGINT, handle_sigint)
+signal.signal(signal.SIGINT, sigint_handler)
 
 def handle_server(server_socket):
     while True:
