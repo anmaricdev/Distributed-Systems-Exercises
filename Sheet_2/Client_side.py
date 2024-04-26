@@ -27,6 +27,7 @@ def main():
 
     server_thread = threading.Thread(target=handle_server, args=(server_socket,))
     server_thread.start()
+    print("Connection with Server established. Feel free to send a message to the server.")
 
     while True:
         message = input()
