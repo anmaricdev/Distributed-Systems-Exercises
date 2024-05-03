@@ -4,7 +4,8 @@ import sys
 import threading
 
 def sigint_handler(signal, frame):
-    print("\nClient shutting down...")
+    print("Client shutting down...")
+    print("------------------------------------------------------------------------------")
     sys.exit(0)
 
 signal.signal(signal.SIGINT, sigint_handler)
@@ -16,6 +17,7 @@ def handle_server(server_socket):
             message = data.decode('utf-8')
             print(f"Server said: {message}")
         else:
+            print("------------------------------------------------------------------------------")
             print("Server disconnected.")
             break
 
@@ -27,7 +29,9 @@ def main():
 
     server_thread = threading.Thread(target=handle_server, args=(server_socket,))
     server_thread.start()
-    print("Connection with Server established. Feel free to send a message to the server.")
+    print("------------------------------------------------------------------------------")
+    print("Connection with Server established.\nFeel free to send a message to the server.")
+    print("------------------------------------------------------------------------------")
 
     while True:
         message = input()
