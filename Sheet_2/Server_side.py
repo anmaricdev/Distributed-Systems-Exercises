@@ -12,7 +12,6 @@ def sigint_handler(signal, frame):
 signal.signal(signal.SIGINT, sigint_handler)
 
 def handle_client(client_socket, client_address):
-    print("------------------------------------------------------------------------------")
     print(f"Connection established with {client_address}.\nWaiting on input...")
     print("------------------------------------------------------------------------------")
     
